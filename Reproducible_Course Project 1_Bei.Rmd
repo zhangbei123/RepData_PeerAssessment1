@@ -1,0 +1,134 @@
+---
+title: "Reproducible_Course Project 1_Bei"
+author: "zhangbei"
+date: "2017Äê11ÔÂ4ÈÕ"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Read the file 
+getwd()
+dir.create("C:\\Users\\Steven\\Desktop\\reproducible research")
+setwd("C:\\Users\\Steven\\Desktop\\reproducible research")
+rm(list=ls())
+
+
+## readfile 
+data<-data.frame()
+data<-read.table(unzip(".\\repdata%2Fdata%2Factivity.zip"),header=TRUE,sep=",",fill=TRUE,na.strings = "NA")
+
+
+names(data)
+dim(data)
+str(data)
+summary(data)
+##data<-transform(data,date=factor(date))
+
+## create a new dataset without  NA 
+data01<-na.omit(data)
+nrow(data)
+nrow(data01)
+
+## get the sum of steps taken per day 
+b <- aggregate(data01$steps, list(data01$date), FUN = "sum")
+names(b)<-c("date","steps")
+
+## use grep, ok 
+uniquedate<-unique(data$date)
+sumsteps<-array()
+for(i in 1:length(uniquedate) )
+{newdata<-data01[grep(uniquedate[i],data01$date,fixed=TRUE),,]
+sumsteps[i]<-sum(newdata$step)
+}
+x<-data.frame(sumsteps,uniquedate)
+
+
+## barplot
+
+barplot(b$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
+
+
+## mean and median of the total number of steps taken per day
+mean(b$steps)
+median(b$steps)
+
+## What is the average daily activity pattern?
+##  Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+c <- aggregate(data01$steps, list(data01$interval), FUN = "mean")
+names(c)<-c("interval","steps")
+plot(c,type="l",main="average number of steps taken of the 5-minute interval ")
+
+##calculate Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
+  c[which.max(c$steps),]$interval
+ 
+ 
+##Imputing missing values
+##1.Calculate and report the total number of missing values in the dataset 
+ nrow(data)-nrow(data01)
+sum(!complete.cases(data))
+
+##2.Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+
+#use the mean for that 5-minute interval to fill the the missing valuse 
+mean for that 5-minute interval
+
+##3.Create a new dataset that is equal to the original dataset but with the missing data filled in.
+data02<-data
+for(i in 1:17568)
+{data02$steps[is.na(data02$steps)]<-b$steps[i] 
+}
+
+##4.Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+b02_sum<-aggregate(data02$steps, list(data02$date), FUN = "sum")
+names(b02_sum)<-c("date","steps")
+b02_mean <- aggregate(data02$steps, list(data02$date), FUN = "mean")
+names(b02_mean)<-c("date","steps")
+b02_median <- aggregate(data02$steps, list(data02$date), FUN = "median")
+names(b02_median)<-c("date","steps")
+
+## the plot becomes more intense. 
+
+barplot(b02_sum$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
+
+
+
+## Are there differences in activity patterns between weekdays and weekends?
+
+##1.Create a new factor variable in the dataset with two levels ¨C ¡°weekday¡± and ¡°weekend¡± indicating whether a given date is a weekday or weekend day.
+Sys.setlocale("LC_TIME", "English")
+data02$day<-weekdays(as.Date(data02$date))
+data02$day<-as.factor(data02$day)
+
+levels(data02$day)[levels(data02$day) %in% c("Monday","Tuesday","Wednesday","Thursday","Friday" )] <- "weekday"
+
+levels(data02$day)[levels(data02$day) %in% c("Saturday","Sunday")] <- "weekend"
+
+
+##2.Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+library("lattice")
+xyplot(steps~interval|day,data=data02,type="l",layout=c(1,2),xlab="interval",ylab="Number of steps")
+
