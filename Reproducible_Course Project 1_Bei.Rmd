@@ -40,11 +40,14 @@ rm(list=ls())
 data<-data.frame()
 data<-read.table(unzip(".\\repdata%2Fdata%2Factivity.zip"),header=TRUE,sep=",",fill=TRUE,na.strings = "NA")
 
-
 names(data)
+
 dim(data)
+
 str(data)
+
 summary(data)
+
 ##data<-transform(data,date=factor(date))
 
 ## create a new dataset without  NA 
@@ -70,7 +73,7 @@ x<-data.frame(sumsteps,uniquedate)
 
 barplot(b$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
 
-![Alt text](https://github.com/zhangbei123/RepData_PeerAssessment1/blob/master/finger/unnamed-chunk-2-1.png)
+![Alt text](https://github.com/zhangbei123/RepData_PeerAssessment1/blob/master/finger/unnamed-chunk-4-1.png)
 
 ## mean and median of the total number of steps taken per day
 mean(b$steps)
@@ -81,7 +84,7 @@ median(b$steps)
 c <- aggregate(data01$steps, list(data01$interval), FUN = "mean")
 names(c)<-c("interval","steps")
 plot(c,type="l",main="average number of steps taken of the 5-minute interval ")
-
+![Alt text](https://github.com/zhangbei123/RepData_PeerAssessment1/blob/master/finger/unnamed-chunk-7-1.png)
 ##calculate Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
   c[which.max(c$steps),]$interval
  
@@ -115,6 +118,7 @@ names(b02_median)<-c("date","steps")
 
 barplot(b02_sum$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
 
+![Alt text](https://github.com/zhangbei123/RepData_PeerAssessment1/blob/master/finger/unnamed-chunk-11-1.png)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -133,3 +137,4 @@ levels(data02$day)[levels(data02$day) %in% c("Saturday","Sunday")] <- "weekend"
 library("lattice")
 xyplot(steps~interval|day,data=data02,type="l",layout=c(1,2),xlab="interval",ylab="Number of steps")
 
+![Alt text](https://github.com/zhangbei123/RepData_PeerAssessment1/blob/master/finger/unnamed-chunk-15-1.png)
