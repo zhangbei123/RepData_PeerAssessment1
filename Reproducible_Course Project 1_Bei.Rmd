@@ -1,7 +1,7 @@
 ---
 title: "Reproducible_Course Project 1_Bei"
 author: "zhangbei"
-date: "2017Äê11ÔÂ4ÈÕ"
+date: "2017Ã„Ãª11Ã”Ã‚4ÃˆÃ•"
 output: html_document
 ---
 
@@ -70,6 +70,8 @@ x<-data.frame(sumsteps,uniquedate)
 
 barplot(b$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
 
+RepData_PeerAssessment1/finger/unnamed-chunk-2-1.png
+
 
 ## mean and median of the total number of steps taken per day
 mean(b$steps)
@@ -118,7 +120,7 @@ barplot(b02_sum$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-##1.Create a new factor variable in the dataset with two levels ¨C ¡°weekday¡± and ¡°weekend¡± indicating whether a given date is a weekday or weekend day.
+##1.Create a new factor variable in the dataset with two levels Â¨C Â¡Â°weekdayÂ¡Â± and Â¡Â°weekendÂ¡Â± indicating whether a given date is a weekday or weekend day.
 Sys.setlocale("LC_TIME", "English")
 data02$day<-weekdays(as.Date(data02$date))
 data02$day<-as.factor(data02$day)
