@@ -70,7 +70,6 @@ x<-data.frame(sumsteps,uniquedate)
 
 barplot(b$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
 
-RepData_PeerAssessment1/finger/unnamed-chunk-2-1.png
 
 
 ## mean and median of the total number of steps taken per day
