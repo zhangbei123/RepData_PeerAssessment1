@@ -69,8 +69,8 @@ x<-data.frame(sumsteps,uniquedate)
 ## barplot
 
 barplot(b$steps,xlab = "Date",ylab="Total steps",main="Steps taken per day")
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-4-1.png) 
 
+![Alt text](https://github.com/zhangbei123/RepData_PeerAssessment1/blob/master/finger/unnamed-chunk-2-1.png)
 
 ## mean and median of the total number of steps taken per day
 mean(b$steps)
